@@ -339,6 +339,8 @@ int filestorageinfo()
 bool basic = false;
 int main(int argc, char *argv[])
 {
+
+
     console = GetStdHandle(STD_OUTPUT_HANDLE);
     GetConsoleScreenBufferInfo(console, &consoleInfo);
     saved_attrib = consoleInfo.wAttributes;
@@ -355,6 +357,18 @@ int main(int argc, char *argv[])
     printf("=====================================================");
     SetConsoleTextAttribute(console,saved_attrib);
     printf("\n\n");
+    if(argv[1] != NULL){
+        if(strcmpi(argv[1],"--help") == 0|| strcmpi(argv[1],"/help") == 0){
+            printf("Help:\n");
+            printf("    whatthefile <file name> [/basic | --basic | /help | --help]\n\n");
+            printf("/basic & --basic: Display only basic information.\n");
+            printf("/help & --help: Display this help output.\n\n");
+            printf("Example:\n");
+            printf("    whatthefile \"C:\\Windows\\System32\\cmd.exe\" /basic\n");
+            printf("    whatthefile \"C:\\Windows\\System32\\diskpart.exe\"");
+            return 0;
+        }
+    }
     if(argv[1] == NULL){
         SetConsoleTextAttribute(console,FOREGROUND_RED);
         printf("Expected a file for argument 2, got NULL.");
@@ -362,7 +376,7 @@ int main(int argc, char *argv[])
         return 1;
     }
     if(argv[2] != NULL){
-        if(strcmpi(argv[2],"/basic") == 0){
+        if(strcmpi(argv[2],"/basic") == 0 || strcmpi(argv[2],"--basic") || 0){
             basic = true;
         }
     }
